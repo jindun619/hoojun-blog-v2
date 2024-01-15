@@ -1,13 +1,27 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
-import { Layout } from "@/components/Layout";
+import { GetStaticProps, GetStaticPaths } from "next";
+
+import { getSortedPostsData } from "../../../lib/posts";
+import markdownToHtml from "../../../lib/markdownToHtml";
+
 import { CategoryBtn } from "@/components/CategoryBtn";
 import { TagBtn } from "@/components/TagBtn";
 import { Bio } from "@/components/Bio";
-// import { Comment } from "../../components/Comment";
 
-export default function BlogPostTemplate() {
+import { PostProps } from "../../../types/types";
+
+export default function PostPage({ postData }: { postData: PostProps }) {
+  const [html, setHtml] = useState<string>("");
+
+  useEffect(() => {
+    (async () => {
+      const content = postData?.content;
+      const convertedHtml = await markdownToHtml(content);
+      setHtml(convertedHtml);
+    })();
+  }, [postData]);
   useEffect(() => {
     // FADE IN TRANSITION
     const fadeInTransition = document.querySelector(".fadeInTransition");
@@ -16,71 +30,98 @@ export default function BlogPostTemplate() {
     }
   });
 
-  const postData = data.post;
-  const navbarData = data.navbar;
+  const frontmatter = postData?.frontmatter;
 
-  const { frontmatter } = postData;
-  const { html } = postData;
+  // const featuredImg = getImage(
+  //   postData.frontmatter.featuredImage?.childImageSharp?.gatsbyImageData
+  // );
 
-  const featuredImg = getImage(
-    postData.frontmatter.featuredImage?.childImageSharp?.gatsbyImageData
-  );
-
-  const tags = frontmatter.tags.map((node) => (
-    <Link key={node} to={`/tag=${node}`} style={{ textDecoration: "none" }}>
+  const showTags = frontmatter?.tags.map((node: string) => (
+    <Link key={node} href={`/tag=${node}`} style={{ textDecoration: "none" }}>
       <TagBtn name={node} />
     </Link>
   ));
 
-  const references = frontmatter.references.map((node) => (
+  const showReferences = frontmatter?.references.map((node: string) => (
     <div key={node}>
-      <Link to={node} className="text-primary hover:decoration-double">
+      <Link href={node} className="text-primary hover:decoration-double">
         {node}
       </Link>
     </div>
   ));
-
   return (
-    <Layout navbarData={navbarData}>
-      <Seo
+    <>
+      {/* <Seo
         title={frontmatter.title}
         description={postData.excerpt}
         url={`/post${frontmatter.slug}`}
-      />
+      /> */}
       <div className="max-w-2xl mx-auto pt-16 px-4 md:px-0 opacity-0 fadeInTransition">
         <div className="mb-2">
-          <Link to={`/category=${frontmatter.category}`}>
-            <CategoryBtn name={frontmatter.category} isActive={true} />
+          <Link href={`/category=${frontmatter?.category}`}>
+            <CategoryBtn name={frontmatter?.category} isActive={true} />
           </Link>
         </div>
         <article className="prose max-w-none">
           <header>
-            <h1>{frontmatter.title}</h1>
-            <p>{frontmatter.date}</p>
-            <div>{tags}</div>
+            <h1>{frontmatter?.title}</h1>
+            <p>{frontmatter?.date}</p>
+            <div>{showTags}</div>
           </header>
-          <GatsbyImage
+          {/* <GatsbyImage
             image={featuredImg}
             className="rounded-[20px] h-80 mb-10"
-          />
+          /> */}
           <div
             dangerouslySetInnerHTML={{ __html: html }}
             className="mdSyntax pb-8 border-b-2"
           />
           <div
             className={
-              frontmatter.references.length !== 0 ? "border-b-2 pb-8" : ""
+              frontmatter?.references.length !== 0 ? "border-b-2 pb-8" : ""
             }>
-            <h2>{frontmatter.references.length !== 0 ? "참고" : ""}</h2>
-            {references}
+            <h2>{frontmatter?.references.length !== 0 ? "참고" : ""}</h2>
+            {showReferences}
           </div>
         </article>
         <div className="pt-8 pb-16">
           <Bio />
         </div>
-        <Comment repo="jindun619/blog-comments" title={frontmatter.title} />
       </div>
-      {/* <TableOfContents content={postData.tableOfContents} /> 추후 개발 예정 */}
-    </Layout>
+    </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const { params } = context;
+  const allPostsData = getSortedPostsData();
+  const postData = allPostsData.find((post) => {
+    return post.frontmatter.slug === `/${params?.postId}`;
+  });
+  return {
+    props: {
+      postData,
+    },
+  };
+};
+
+interface PostListProps {
+  params: {
+    postId: string;
+  };
+}
+export const getStaticPaths = (async () => {
+  const allPostsData = getSortedPostsData();
+  const postList: PostListProps[] = [];
+  allPostsData.map((post) => {
+    postList.push({
+      params: {
+        postId: post.frontmatter.slug,
+      },
+    });
+  });
+  return {
+    paths: postList,
+    fallback: true, // false or "blocking"
+  };
+}) satisfies GetStaticPaths;

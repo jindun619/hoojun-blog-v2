@@ -21,13 +21,13 @@ export function getSortedPostsData() {
     // Combine the data with the id
     return {
       id,
+      frontmatter: matterResult.data,
       content: matterResult.content,
-      ...matterResult.data,
     };
   });
   // Sort posts by date
   return allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
+    if (a.frontmatter.date < b.frontmatter.date) {
       return 1;
     } else {
       return -1;

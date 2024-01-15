@@ -1,6 +1,6 @@
 interface TagBtnProps {
   name: string;
-  isActive: boolean;
+  isActive?: boolean;
 }
 function TagBtn({ name, isActive }: TagBtnProps) {
   var active;
