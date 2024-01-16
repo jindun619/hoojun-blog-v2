@@ -1,4 +1,8 @@
 import type { InferGetStaticPropsType } from "next";
+import { useEffect } from "react";
+
+import { useSetRecoilState } from "recoil";
+import { navbarParamsState } from "@/recoil/state";
 
 import { Bio } from "@/components/Bio";
 import { CardsArea } from "@/components/CardsArea";
@@ -8,7 +12,19 @@ import { getSortedPostsData } from "../../lib/posts";
 export default function IndexPage({
   allPostsData,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log(allPostsData);
+  const setNavbarParams = useSetRecoilState(navbarParamsState);
+
+  useEffect(() => {
+    const processedPostsData = allPostsData.map((post) => {
+      return {
+        category: post.frontmatter.category,
+        tags: post.frontmatter.tags,
+      };
+    });
+    console.log(processedPostsData);
+    setNavbarParams(processedPostsData);
+  }, []);
+
   return (
     <>
       {/* <Seo title="Home" description="Home" url="" /> */}

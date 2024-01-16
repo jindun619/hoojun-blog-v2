@@ -3,7 +3,7 @@ slug: "/3"
 date: "2023-09-15"
 title: "When to Use Static Generation v.s. Server-side Rendering"
 tags: []
-category: ["a"]
+category: "a"
 references: []
 featuredImage: ./fi3.png
 ---

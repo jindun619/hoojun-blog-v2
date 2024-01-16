@@ -3,7 +3,7 @@ slug: "/2"
 date: "2023-09-15"
 title: "title1"
 tags: [""]
-category: [""]
+category: "hi"
 references: []
 featuredImage: ./fi2.png
 ---

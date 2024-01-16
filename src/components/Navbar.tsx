@@ -1,8 +1,31 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+
+import { useRecoilState } from "recoil";
+import { navbarParamsState } from "@/recoil/state";
+
 import { CategoryBtn } from "./CategoryBtn";
+import { TagBtn } from "./TagBtn";
 
 export function Navbar() {
+  const [navbarParams] = useRecoilState(navbarParamsState);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
+
+  useEffect(() => {
+    setCategories([...new Set(navbarParams.map((item) => item.category))]);
+
+    const tagsSet = new Set<string>();
+    navbarParams.forEach((item) => {
+      item.tags.forEach((tag) => {
+        if (tag) {
+          tagsSet.add(tag);
+        }
+      });
+    });
+    setTags([...tagsSet]);
+  }, [navbarParams]);
+
   useEffect(() => {
     var prevScrollpos = window.scrollY;
     window.onscroll = function () {
@@ -15,14 +38,6 @@ export function Navbar() {
       prevScrollpos = currentScrollPos;
     };
   });
-
-  // const categories = data.distinct.map((it, idx) => (
-  //   <Link key={idx} to={`/category=${it}`}>
-  //     <li className="my-2">
-  //       <CategoryBtn name={it} isActive={true} />
-  //     </li>
-  //   </Link>
-  // ));
 
   return (
     <div className="navbar bg-primary sticky top-0 z-10">
@@ -54,12 +69,33 @@ export function Navbar() {
               <article className="prose m-5">
                 <h1>
                   Categories
-                  <div className="badge badge-ghost">
-                    {/* {data.distinct.length} */}
-                  </div>
+                  <div className="badge badge-ghost">{categories.length}</div>
                 </h1>
               </article>
-              {/* {categories} */}
+              {categories
+                ? categories.map((it, idx) => (
+                    <Link key={idx} href={`/category/${it}`}>
+                      <li className="my-2">
+                        <CategoryBtn name={it} isActive={true} />
+                      </li>
+                    </Link>
+                  ))
+                : ""}
+              <article className="prose m-5">
+                <h1>
+                  Tags
+                  <div className="badge badge-ghost">{tags.length}</div>
+                </h1>
+              </article>
+              {tags
+                ? tags.map((it, idx) => (
+                    <Link key={idx} href={`/tag/${it}`}>
+                      <li className="my-2">
+                        <TagBtn name={it} isActive={true} />
+                      </li>
+                    </Link>
+                  ))
+                : ""}
             </ul>
           </div>
         </div>
@@ -67,9 +103,7 @@ export function Navbar() {
       {/**********/}
       <div className="navbar-center">
         <button className="btn btn-primary normal-case text-xl">
-          <Link href="/">
-          Hoojun.Kim
-          </Link>
+          <Link href="/">Hoojun.Kim</Link>
         </button>
       </div>
       <div className="navbar-end">
