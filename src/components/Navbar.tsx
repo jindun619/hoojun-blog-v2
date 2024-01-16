@@ -66,9 +66,11 @@ export function Navbar() {
       </div>
       {/**********/}
       <div className="navbar-center">
-        <Link href="/" className="btn btn-primary normal-case text-xl">
+        <button className="btn btn-primary normal-case text-xl">
+          <Link href="/">
           Hoojun.Kim
-        </Link>
+          </Link>
+        </button>
       </div>
       <div className="navbar-end">
         {/* search btn zan shi bu yong  */}

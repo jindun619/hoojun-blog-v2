@@ -2,13 +2,20 @@
 slug: "/3"
 date: "2023-09-15"
 title: "When to Use Static Generation v.s. Server-side Rendering"
-tags: [""]
+tags: []
 category: ["a"]
 references: []
 featuredImage: ./fi3.png
 ---
 
 We recommend using **Static Generation** (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a server render the page on every request.
+
+> This is a quote
+
+```typescript
+const a = "ts code";
+console.log(`this is a ${a}`);
+```
 
 You can use Static Generation for many types of pages, including:
 

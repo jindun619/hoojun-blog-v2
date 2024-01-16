@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
+import Prism from "prismjs";
+import "prismjs/components/prism-typescript.min";
+import "prismjs/components/prism-python.min";
+import "prismjs/themes/prism-tomorrow.css";
+
 import { GetStaticProps, GetStaticPaths } from "next";
 
 import { getSortedPostsData } from "../../../lib/posts";
@@ -22,6 +27,11 @@ export default function PostPage({ postData }: { postData: PostProps }) {
       setHtml(convertedHtml);
     })();
   }, [postData]);
+
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [html]);
+
   useEffect(() => {
     // FADE IN TRANSITION
     const fadeInTransition = document.querySelector(".fadeInTransition");
