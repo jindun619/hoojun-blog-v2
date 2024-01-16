@@ -2,97 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
-
-@layer base {
-    html {
-        font-family: 'Spoqa Han Sans Neo', system-ui, 'sans-serif';
-    }
-}
-
 .navbar {
-    transition: top 0.4s ease-in-out;
+  transition: top 0.4s ease-in-out;
 }
 
 .listByTag .prose1 {
-    @apply mb-4
+  @apply mb-4;
 }
 
 .listByTag .prose2 {
-    @apply mt-8
+  @apply mt-8;
 }
 
 .fadeInTransition {
-    transition: all 0.5s ease-in-out
+  transition: all 0.5s ease-in-out;
 }
 
 .prose header {
-    @apply border-b-4 mb-10
+  @apply border-b-4 mb-10;
 }
 
 .prose header p {
-    @apply my-2
+  @apply my-2;
 }
 
 .prose header div {
-    @apply flex flex-wrap gap-2 mb-2
+  @apply flex flex-wrap gap-2 mb-2;
 }
 
 .prose header h1 {
-    @apply text-5xl mb-4 border-none
+  @apply text-5xl mb-4 border-none;
 }
 
 .prose header p {
-    @apply text-neutral-content
+  @apply text-neutral-content font-semibold;
 }
 
 .mdSyntax h1 {
-    @apply text-4xl
+  @apply text-4xl;
 }
 
 .mdSyntax h2 {
-    @apply text-3xl
+  @apply text-3xl;
 }
 
 .mdSyntax h3 {
-    @apply text-2xl
+  @apply text-2xl;
 }
 
 .mdSyntax h4 {
-    @apply text-xl
+  @apply text-xl;
 }
 
 .mdSyntax h5 {
-    @apply text-lg
+  @apply text-lg;
 }
 
 .mdSyntax h6 {
-    @apply text-base
+  @apply text-base;
 }
 
 .mdSyntax p {
-    @apply text-lg leading-10
+  @apply text-lg leading-10 font-medium;
 }
 
 .mdSyntax a {
-    @apply text-primary hover:decoration-double
+  @apply text-primary hover:decoration-double;
 }
 
 .mdSyntax blockquote {
-    @apply border-l-primary bg-base-300 pl-8 pt-4 pb-4 pr-4 not-italic;
-    quotes: none;
+  @apply border-l-primary bg-base-300 pl-8 pt-4 pb-4 pr-4 not-italic;
+  quotes: none;
 }
 
 .mdSyntax blockquote p {
-    @apply m-0
+  @apply m-0;
 }
 
 .mdSyntax img {
-    @apply block m-auto
+  @apply block m-auto;
 }
 
 .mdSyntax .language-text {
-    @apply bg-primary-content text-base-content;
-    text-shadow: none;
+  @apply bg-primary-content text-base-content;
+  text-shadow: none;
 }
-  
