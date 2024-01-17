@@ -19,6 +19,7 @@ import { PostProps } from "../../../types/types";
 
 export default function PostPage({ postData }: { postData: PostProps }) {
   const [html, setHtml] = useState<string>("");
+  const [imgValid, setImgValid] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
@@ -77,14 +78,21 @@ export default function PostPage({ postData }: { postData: PostProps }) {
             <div>{showTags}</div>
           </header>
           {/* Featured Image */}
-          <div className="relative h-80 mb-10">
-            <Image
-              src={featuredImageUrl}
-              alt="featuredImage"
-              fill={true}
-              style={{ borderRadius: "20px" }}
-            />
-          </div>
+          {imgValid ? (
+            <div className="relative h-80 mb-10">
+              <Image
+                src={featuredImageUrl}
+                alt="featuredImage"
+                fill={true}
+                style={{ borderRadius: "20px" }}
+                onError={() => {
+                  setImgValid(false);
+                }}
+              />
+            </div>
+          ) : (
+            ""
+          )}
           <div
             dangerouslySetInnerHTML={{ __html: html }}
             className="mdSyntax pb-8 border-b-2"

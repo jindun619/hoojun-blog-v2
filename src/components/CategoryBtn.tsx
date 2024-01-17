@@ -1,6 +1,6 @@
 interface CategoryBtnProps {
   name: string;
-  isActive: boolean;
+  isActive?: boolean;
   isOutlined?: boolean;
 }
 export function CategoryBtn({ name, isActive, isOutlined }: CategoryBtnProps) {

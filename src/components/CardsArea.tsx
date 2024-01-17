@@ -15,15 +15,15 @@ export function CardsArea({ data }: { data: PostProps[] }) {
 
   return (
     <div className="mt-4 border-t-4 opacity-0 fadeInTransition">
-      {data.map((node) => (
+      {data.map((it, idx) => (
         <Card
-          key={node.frontmatter.title}
-          category={node.frontmatter.category}
-          title={node.frontmatter.title}
-          content={node.content} //excerpt
-          date={node.frontmatter.date}
-          tags={node.frontmatter.tags}
-          slug={node.frontmatter.slug}
+          key={idx}
+          category={it.frontmatter.category}
+          title={it.frontmatter.title}
+          content={it.content} //excerpt
+          date={it.frontmatter.date}
+          tags={it.frontmatter.tags}
+          slug={it.frontmatter.slug}
         />
       ))}
     </div>

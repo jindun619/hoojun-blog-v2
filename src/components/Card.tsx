@@ -25,11 +25,15 @@ export function Card({
     setIsMounted(true);
   }, []);
 
-  const showTags = tags.map((tagName) => (
-    <Link key={tagName} href={`/tag=${tagName}`}>
-      <TagBtn name={tagName} />
-    </Link>
-  ));
+  const showTags = tags.map((tagName) => {
+    if (tagName) {
+      return (
+        <Link key={tagName} href={`/tag/${tagName}`}>
+          <TagBtn name={tagName} />
+        </Link>
+      );
+    }
+  });
 
   if (isMounted) {
     return (
