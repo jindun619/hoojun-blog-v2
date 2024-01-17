@@ -21,7 +21,6 @@ export default function IndexPage({
         tags: post.frontmatter.tags,
       };
     });
-    console.log(processedPostsData);
     setNavbarParams(processedPostsData);
   }, []);
 

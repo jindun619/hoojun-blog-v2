@@ -9,7 +9,7 @@ import "prismjs/components/prism-python.min";
 import "prismjs/themes/prism-tomorrow.css";
 
 import { getSortedPostsData } from "../../../lib/posts";
-import markdownToHtml from "../../../lib/markdownToHtml";
+import { markdownToHtml } from "../../../lib/markdownToHtml";
 
 import { CategoryBtn } from "@/components/CategoryBtn";
 import { TagBtn } from "@/components/TagBtn";
@@ -46,7 +46,7 @@ export default function PostPage({ postData }: { postData: PostProps }) {
   const featuredImageUrl = `/post_images${frontmatter?.slug}/fi.png`;
 
   const showTags = frontmatter?.tags.map((node: string) => (
-    <Link key={node} href={`/tag=${node}`} style={{ textDecoration: "none" }}>
+    <Link key={node} href={`/tag/${node}`} style={{ textDecoration: "none" }}>
       <TagBtn name={node} />
     </Link>
   ));
@@ -67,7 +67,7 @@ export default function PostPage({ postData }: { postData: PostProps }) {
       /> */}
       <div className="max-w-2xl mx-auto pt-16 px-4 md:px-0 opacity-0 fadeInTransition">
         <div className="mb-2">
-          <Link href={`/category=${frontmatter?.category}`}>
+          <Link href={`/category/${frontmatter?.category}`}>
             <CategoryBtn name={frontmatter?.category} isActive={true} />
           </Link>
         </div>

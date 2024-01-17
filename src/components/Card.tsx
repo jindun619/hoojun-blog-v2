@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { TagBtn } from "./TagBtn";
 import Link from "next/link";
 
+import { markdownToHtml } from "../../lib/markdownToHtml";
+import { htmlToText } from "../../lib/htmlToText";
+
 interface CardProps {
   title: string;
   content: string;
@@ -20,10 +23,18 @@ export function Card({
   tags,
 }: CardProps) {
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [convertedContent, setConvertedContent] = useState<string>("");
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      const convertedHtml = await markdownToHtml(content);
+      setConvertedContent(convertedHtml);
+    })();
+  }, [content]);
 
   const showTags = tags.map((tagName) => {
     if (tagName) {
@@ -42,7 +53,7 @@ export function Card({
           <div className="p-4 text-base">
             <h2 className="card-titles text-3xl font-bold text-primary">{`[${category}]${title}`}</h2>
             <p className="text-base text-base-content font-semibold my-2">
-              {content}
+              {htmlToText(convertedContent).substring(0, 200) + ".."}
             </p>
             <div className="flex flex-wrap gap-2">{showTags}</div>
             <p className="text-sm text-neutral-content font-semibold mt-2">
