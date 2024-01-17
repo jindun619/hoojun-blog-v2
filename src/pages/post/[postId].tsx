@@ -47,10 +47,8 @@ export default function PostPage({ postData }: { postData: PostProps }) {
 
   const featuredImageUrl = `/post_images${frontmatter?.slug}/fi.png`;
 
-  const showTags = frontmatter?.tags.map((node: string) => (
-    <Link key={node} href={`/tag/${node}`} style={{ textDecoration: "none" }}>
-      <TagBtn name={node} />
-    </Link>
+  const showTags = frontmatter?.tags.map((node: string, idx: number) => (
+    <TagBtn key={idx} name={node} href={`/tag/${node}`} />
   ));
 
   const showReferences = frontmatter?.references.map((node: string) => (
@@ -62,55 +60,57 @@ export default function PostPage({ postData }: { postData: PostProps }) {
   ));
 
   const excerpt = htmlToText(html).substring(0, 200);
-  return (
-    <>
-      <SEO title={frontmatter.title} description={excerpt} />
-      <div className="max-w-2xl mx-auto pt-16 px-4 md:px-0 opacity-0 fadeInTransition">
-        <div className="mb-2">
-          <Link href={`/category/${frontmatter?.category}`}>
-            <CategoryBtn name={frontmatter?.category} isActive={true} />
-          </Link>
-        </div>
-        <article className="prose max-w-none">
-          <header>
-            <h1>{frontmatter?.title}</h1>
-            <p>{frontmatter?.date}</p>
-            <div>{showTags}</div>
-          </header>
-          {/* Featured Image */}
-          {imgValid ? (
-            <div className="relative h-80 mb-10">
-              <Image
-                src={featuredImageUrl}
-                alt="featuredImage"
-                fill={true}
-                style={{ borderRadius: "20px" }}
-                onError={() => {
-                  setImgValid(false);
-                }}
-              />
-            </div>
-          ) : (
-            ""
-          )}
-          <div
-            dangerouslySetInnerHTML={{ __html: html }}
-            className="mdSyntax pb-8 border-b-2"
-          />
-          <div
-            className={
-              frontmatter?.references.length !== 0 ? "border-b-2 pb-8" : ""
-            }>
-            <h2>{frontmatter?.references.length !== 0 ? "참고" : ""}</h2>
-            {showReferences}
+  if (frontmatter) {
+    return (
+      <>
+        <SEO title={frontmatter?.title} description={excerpt} />
+        <div className="max-w-2xl mx-auto pt-16 px-4 md:px-0 opacity-0 fadeInTransition">
+          <div className="mb-2">
+            <Link href={`/category/${frontmatter?.category}`}>
+              <CategoryBtn name={frontmatter?.category} isActive={true} />
+            </Link>
           </div>
-        </article>
-        <div className="pt-8 pb-16">
-          <Bio />
+          <article className="prose max-w-none">
+            <header>
+              <h1>{frontmatter?.title || ""}</h1>
+              <p>{frontmatter?.date}</p>
+              <div>{showTags}</div>
+            </header>
+            {/* Featured Image */}
+            {imgValid ? (
+              <div className="relative h-80 mb-10">
+                <Image
+                  src={featuredImageUrl}
+                  alt="featuredImage"
+                  fill={true}
+                  style={{ borderRadius: "20px" }}
+                  onError={() => {
+                    setImgValid(false);
+                  }}
+                />
+              </div>
+            ) : (
+              ""
+            )}
+            <div
+              dangerouslySetInnerHTML={{ __html: html }}
+              className="mdSyntax pb-8 border-b-2"
+            />
+            <div
+              className={
+                frontmatter?.references.length !== 0 ? "border-b-2 pb-8" : ""
+              }>
+              <h2>{frontmatter?.references.length !== 0 ? "참고" : ""}</h2>
+              {showReferences}
+            </div>
+          </article>
+          <div className="pt-8 pb-16">
+            <Bio />
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -119,6 +119,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const postData = allPostsData.find((post) => {
     return post.frontmatter.slug === `/${params?.postId}`;
   });
+  console.log(postData);
   return {
     props: {
       postData,

@@ -38,9 +38,11 @@ export default function TagPage({
     });
 
     return (
-      <Link key={idx} href={`/tag/${it}`} style={{ textDecoration: "none" }}>
-        <TagBtn name={`${it}(${count})`} isActive={it === selectedTag} />
-      </Link>
+      <TagBtn
+        name={`${it}(${count})`}
+        href={`/tag/${it}`}
+        isActive={it === selectedTag}
+      />
     );
   });
 

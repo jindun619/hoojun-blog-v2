@@ -36,12 +36,12 @@ export function Card({
     })();
   }, [content]);
 
-  const showTags = tags.map((tagName) => {
+  const showTags = tags.map((tagName, idx) => {
     if (tagName) {
       return (
-        <Link key={tagName} href={`/tag/${tagName}`}>
-          <TagBtn name={tagName} />
-        </Link>
+        // <Link key={tagName} href={`/tag/${tagName}`}>
+        <TagBtn key={idx} name={tagName} href={`/tag/${tagName}`} />
+        // </Link>
       );
     }
   });

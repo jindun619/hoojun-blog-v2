@@ -89,11 +89,9 @@ export function Navbar() {
               </article>
               {tags
                 ? tags.map((it, idx) => (
-                    <Link key={idx} href={`/tag/${it}`}>
-                      <li className="my-2">
-                        <TagBtn name={it} isActive={true} />
-                      </li>
-                    </Link>
+                    <li className="my-2">
+                      <TagBtn name={it} href={`/tag/${it}`} isActive={true} />
+                    </li>
                   ))
                 : ""}
             </ul>
