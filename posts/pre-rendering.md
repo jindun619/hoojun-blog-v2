@@ -5,7 +5,7 @@ title: "title1"
 tags: [""]
 category: "hi"
 references: []
-featuredImage: ./fi2.png
+featuredImage: "./fi2.png"
 ---
 
 Next.js has two forms of pre-rendering: **Static Generation** and **Server-side Rendering**. The difference is in **when** it generates the HTML for a page.

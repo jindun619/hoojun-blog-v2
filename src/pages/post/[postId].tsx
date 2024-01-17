@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { GetStaticProps, GetStaticPaths } from "next";
 
 import Prism from "prismjs";
 import "prismjs/components/prism-typescript.min";
 import "prismjs/components/prism-python.min";
 import "prismjs/themes/prism-tomorrow.css";
-
-import { GetStaticProps, GetStaticPaths } from "next";
 
 import { getSortedPostsData } from "../../../lib/posts";
 import markdownToHtml from "../../../lib/markdownToHtml";
@@ -42,9 +42,7 @@ export default function PostPage({ postData }: { postData: PostProps }) {
 
   const frontmatter = postData?.frontmatter;
 
-  // const featuredImg = getImage(
-  //   postData.frontmatter.featuredImage?.childImageSharp?.gatsbyImageData
-  // );
+  const featuredImageUrl = `/post_images${frontmatter?.slug}/fi.png`;
 
   const showTags = frontmatter?.tags.map((node: string) => (
     <Link key={node} href={`/tag=${node}`} style={{ textDecoration: "none" }}>
@@ -78,10 +76,15 @@ export default function PostPage({ postData }: { postData: PostProps }) {
             <p>{frontmatter?.date}</p>
             <div>{showTags}</div>
           </header>
-          {/* <GatsbyImage
-            image={featuredImg}
-            className="rounded-[20px] h-80 mb-10"
-          /> */}
+          {/* Featured Image */}
+          <div className="relative h-80 mb-10">
+            <Image
+              src={featuredImageUrl}
+              alt="featuredImage"
+              fill={true}
+              style={{ borderRadius: "20px" }}
+            />
+          </div>
           <div
             dangerouslySetInnerHTML={{ __html: html }}
             className="mdSyntax pb-8 border-b-2"
