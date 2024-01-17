@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { navbarParamsState } from "@/recoil/state";
 
+import { SEO } from "@/components/SEO";
 import { Bio } from "@/components/Bio";
 import { CardsArea } from "@/components/CardsArea";
 
@@ -26,7 +27,7 @@ export default function IndexPage({
 
   return (
     <>
-      {/* <Seo title="Home" description="Home" url="" /> */}
+      <SEO title="홈" description="홈" />
       {/* BIO */}
       <div className="mt-16">
         <Bio />

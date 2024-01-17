@@ -2,6 +2,7 @@ import * as React from "react";
 import Link from "next/link";
 import { GetStaticProps, GetStaticPaths } from "next";
 
+import { SEO } from "@/components/SEO";
 import { CardsArea } from "@/components/CardsArea";
 import { TagBtn } from "@/components/TagBtn";
 
@@ -44,19 +45,17 @@ export default function TagPage({
   });
 
   return (
-    //   <Seo
-    //     title={category}
-    //     description={category}
-    //     url={`/category=${category}`}
-    //   />
-    <div className="max-w-2xl pt-16 mx-auto">
-      <article className="prose">
-        <h1 className="ml-4"># {selectedTag}</h1>
-        <div className="flex flex-wrap gap-2 ml-4">{showTags}</div>
-        <figcaption className="ml-4">{`총 ${selectedPostsData.length}개의 포스트`}</figcaption>
-      </article>
-      <CardsArea data={selectedPostsData} />
-    </div>
+    <>
+      <SEO title="태그" description="태그" />
+      <div className="max-w-2xl pt-16 mx-auto">
+        <article className="prose">
+          <h1 className="ml-4"># {selectedTag}</h1>
+          <div className="flex flex-wrap gap-2 ml-4">{showTags}</div>
+          <figcaption className="ml-4">{`총 ${selectedPostsData.length}개의 포스트`}</figcaption>
+        </article>
+        <CardsArea data={selectedPostsData} />
+      </div>
+    </>
   );
 }
 

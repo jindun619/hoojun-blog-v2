@@ -10,7 +10,9 @@ import "prismjs/themes/prism-tomorrow.css";
 
 import { getSortedPostsData } from "../../../lib/posts";
 import { markdownToHtml } from "../../../lib/markdownToHtml";
+import { htmlToText } from "../../../lib/htmlToText";
 
+import { SEO } from "@/components/SEO";
 import { CategoryBtn } from "@/components/CategoryBtn";
 import { TagBtn } from "@/components/TagBtn";
 import { Bio } from "@/components/Bio";
@@ -58,13 +60,11 @@ export default function PostPage({ postData }: { postData: PostProps }) {
       </Link>
     </div>
   ));
+
+  const excerpt = htmlToText(html).substring(0, 200);
   return (
     <>
-      {/* <Seo
-        title={frontmatter.title}
-        description={postData.excerpt}
-        url={`/post${frontmatter.slug}`}
-      /> */}
+      <SEO title={frontmatter.title} description={excerpt} />
       <div className="max-w-2xl mx-auto pt-16 px-4 md:px-0 opacity-0 fadeInTransition">
         <div className="mb-2">
           <Link href={`/category/${frontmatter?.category}`}>
