@@ -21,11 +21,10 @@ export function SEO({ title, description }: SEOProps) {
         name="google-site-verification"
         content="_ugXUv4-9ZFkQIhcRLxyyHKcnw1eQKy6qIrko9xhsak"
       />
-      {/*
       <meta
         name="naver-site-verification"
-        content="1ac14aae744cb6ea0e41eb304d628d302ba07e60"
-      /> */}
+        content="7f7e83e47f7dedbdc99bfc301d8566a29c7dbbe8"
+      />
 
       <link
         rel="apple-touch-icon"
