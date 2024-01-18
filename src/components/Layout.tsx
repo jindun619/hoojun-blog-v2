@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import { Navbar } from "./Navbar";
 import { useEffect } from "react";
 
@@ -7,6 +9,26 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, []);
   return (
     <div>
+      <Head>
+        <meta name="theme-color" content="#ff0000"></meta>
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/asset/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/asset/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/asset/favicon-16x16.png"
+        />
+      </Head>
       <Navbar />
       <div className="max-w-2xl mx-auto h-full">{children}</div>;
     </div>
