@@ -17,10 +17,11 @@ export function SEO({ title, description }: SEOProps) {
       <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
 
       {/* Search Engine Verifications */}
-      {/* <meta
+      <meta
         name="google-site-verification"
         content="_ugXUv4-9ZFkQIhcRLxyyHKcnw1eQKy6qIrko9xhsak"
       />
+      {/*
       <meta
         name="naver-site-verification"
         content="1ac14aae744cb6ea0e41eb304d628d302ba07e60"
