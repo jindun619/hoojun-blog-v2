@@ -94,6 +94,6 @@ export const getStaticPaths = (async () => {
 
   return {
     paths: categoryList,
-    fallback: true, // false or "blocking"
+    fallback: false, // false or "blocking"
   };
 }) satisfies GetStaticPaths;

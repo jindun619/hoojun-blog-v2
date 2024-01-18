@@ -119,7 +119,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const postData = allPostsData.find((post) => {
     return post.frontmatter.slug === `/${params?.postId}`;
   });
-  console.log(postData);
   return {
     props: {
       postData,
@@ -138,7 +137,7 @@ export const getStaticPaths = (async () => {
   allPostsData.map((post) => {
     postList.push({
       params: {
-        postId: post.frontmatter.slug,
+        postId: post.frontmatter.slug.substring(1),
       },
     });
   });

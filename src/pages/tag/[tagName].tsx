@@ -21,7 +21,7 @@ export default function TagPage({
     return post.frontmatter.tags.includes(selectedTag);
   });
   const tagsSet = new Set<string>();
-  allPostsData.forEach((item) => {
+  allPostsData.forEach((item, idx) => {
     item.frontmatter.tags.forEach((tag: string) => {
       if (tag) {
         tagsSet.add(tag);
@@ -39,6 +39,7 @@ export default function TagPage({
 
     return (
       <TagBtn
+        key={idx}
         name={`${it}(${count})`}
         href={`/tag/${it}`}
         isActive={it === selectedTag}
@@ -100,6 +101,6 @@ export const getStaticPaths = (async () => {
 
   return {
     paths: tagList,
-    fallback: true, // false or "blocking"
+    fallback: false, // false or "blocking"
   };
 }) satisfies GetStaticPaths;
