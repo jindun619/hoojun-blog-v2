@@ -23,7 +23,7 @@ export default function IndexPage({
       };
     });
     setNavbarParams(processedPostsData);
-  }, []);
+  }, [allPostsData]);
 
   return (
     <>

@@ -39,9 +39,7 @@ export function Card({
   const showTags = tags.map((tagName, idx) => {
     if (tagName) {
       return (
-        // <Link key={tagName} href={`/tag/${tagName}`}>
         <TagBtn key={idx} name={tagName} href={`/tag/${tagName}`} />
-        // </Link>
       );
     }
   });

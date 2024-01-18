@@ -1,14 +1,16 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export function Bio() {
   return (
     <div className="flex ml-4">
       <div className="avatar">
-        <div className="w-20 h-20 mr-4 rounded-full border-2 border-primary">
-          <img
-            className="rounded-full"
+        <div className="relative w-20 h-20 mr-4 rounded-full border-2 border-primary">
+          <Image
             src="/asset/bio-image.PNG"
-            alt="bioImg"
+            alt="bioImage"
+            fill={true}
+            style={{ borderRadius: "9999px" }}
           />
         </div>
       </div>

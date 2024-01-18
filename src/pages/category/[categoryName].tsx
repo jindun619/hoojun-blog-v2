@@ -1,4 +1,3 @@
-import * as React from "react";
 import Link from "next/link";
 import { GetStaticProps, GetStaticPaths } from "next";
 
@@ -94,6 +93,6 @@ export const getStaticPaths = (async () => {
 
   return {
     paths: categoryList,
-    fallback: false, // false or "blocking"
+    fallback: false,
   };
 }) satisfies GetStaticPaths;
