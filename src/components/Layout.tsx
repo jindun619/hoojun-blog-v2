@@ -10,7 +10,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <Head>
-        <meta name="theme-color" content="#ff0000"></meta>
+        <meta name="theme-color" content="#0070ed"></meta>
         <link
           rel="apple-touch-icon"
           sizes="180x180"
