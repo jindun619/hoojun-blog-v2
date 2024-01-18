@@ -13,6 +13,7 @@
     "gray-matter": "^4.0.3",
     "next": "14.0.4",
     "next-sitemap": "^4.2.3",
+    "nookies": "^2.5.2",
     "prismjs": "^1.29.0",
     "react": "^18",
     "react-dom": "^18",
