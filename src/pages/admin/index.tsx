@@ -3,10 +3,7 @@ import Link from "next/link";
 
 import { parseCookies } from "nookies";
 
-const verifyToken = (token: string) => {
-  // 토큰 검증 로직 구현
-  return token === process.env.ADMIN_TOKEN;
-};
+import { verifyToken } from "@/utils/utils";
 
 export default function AdminPage() {
   return (

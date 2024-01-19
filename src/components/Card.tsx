@@ -3,8 +3,7 @@ import { useState, useEffect } from "react";
 import { TagBtn } from "./TagBtn";
 import Link from "next/link";
 
-import { markdownToHtml } from "../../lib/markdownToHtml";
-import { htmlToText } from "../../lib/htmlToText";
+import { markdownToHtml, htmlToText } from "@/utils/utils";
 
 interface CardProps {
   title: string;
@@ -38,9 +37,7 @@ export function Card({
 
   const showTags = tags.map((tagName, idx) => {
     if (tagName) {
-      return (
-        <TagBtn key={idx} name={tagName} href={`/tag/${tagName}`} />
-      );
+      return <TagBtn key={idx} name={tagName} href={`/tag/${tagName}`} />;
     }
   });
 
