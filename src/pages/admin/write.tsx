@@ -5,9 +5,9 @@ import { parseCookies } from "nookies";
 
 import { Post } from "@/components/Post";
 
-import { verifyToken } from "@/utils/utils";
+import { verifyToken, markdownToHtml } from "@/utils/utils";
 
-import { markdownToHtml } from "@/utils/utils";
+import { getSortedPostsData } from "../../../lib/posts";
 
 interface InputValues {
   title: string;
@@ -88,5 +88,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  return { props: {} };
+  const allPostsData = getSortedPostsData();
+  //get categories&tags
+  const allCategories = [
+    ...new Set(allPostsData.map((item) => item.frontmatter.category)),
+  ];
+  const tagsSet = new Set<string>();
+  allPostsData.forEach((item, idx) => {
+    item.frontmatter.tags.forEach((tag: string) => {
+      if (tag) {
+        tagsSet.add(tag);
+      }
+    });
+  });
+  const allTags = [...tagsSet];
+
+  return { props: { allCategories, allTags } };
 };
