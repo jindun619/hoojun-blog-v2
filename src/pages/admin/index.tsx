@@ -1,4 +1,6 @@
 import { GetServerSideProps } from "next";
+import Link from "next/link";
+
 import { parseCookies } from "nookies";
 
 const verifyToken = (token: string) => {
@@ -7,7 +9,17 @@ const verifyToken = (token: string) => {
 };
 
 export default function AdminPage() {
-  return <h1>hi</h1>;
+  return (
+    <div className="mt-16 flex gap-3">
+      <Link href="/admin/write">
+        <button className="btn btn-neutral">게시글 작성</button>
+      </Link>
+      <Link href="/admin/edit">
+        {/* 수정 페이지에서 삭제, 숨기기 기능 구현 */}
+        <button className="btn btn-neutral">게시글 수정</button>
+      </Link>
+    </div>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -19,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (!isAuthenticated) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/admin/login",
         permanent: false,
       },
     };
