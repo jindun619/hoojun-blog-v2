@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { GetServerSideProps } from "next";
 
 import { parseCookies } from "nookies";
@@ -10,18 +10,37 @@ import { verifyToken, markdownToHtml } from "@/utils/utils";
 import { getSortedPostsData } from "../../../lib/posts";
 
 interface InputValues {
+  category: string;
   title: string;
   content: string;
+  tags: string[];
+  references: string[];
 }
-export default function AdminWritePage() {
+interface AdminWirtePageProps {
+  allCategories: string[];
+  allTags: string[];
+}
+export default function AdminWritePage({
+  allCategories,
+  allTags,
+}: AdminWirtePageProps) {
   const [inputValues, setInputValues] = useState<InputValues>({
+    category: "",
     title: "",
     content: "",
+    tags: [],
+    references: [],
   });
   const [html, setHtml] = useState<string>("");
+  const [isCategorySelectable, setIsCategorySelectable] =
+    useState<boolean>(true);
+  const [tagInput, setTagInput] = useState<string>("");
+  const [referenceInput, setReferenceInput] = useState<string>("");
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     e.preventDefault();
     setInputValues({
@@ -29,6 +48,71 @@ export default function AdminWritePage() {
       [e.target.name]: e.target.value,
     });
   };
+
+  const toggleCategory = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsCategorySelectable((prev) => !prev);
+    setInputValues((prev) => ({
+      ...prev,
+      category: "",
+    }));
+  };
+
+  //TAG Handlers
+  const handleTagChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    e.preventDefault();
+    if (inputValues.tags.includes(e.target.value)) {
+      alert(`#${e.target.value} already exists!`);
+    } else {
+      setInputValues((prev) => ({
+        ...prev,
+        tags: [...prev.tags, e.target.value],
+      }));
+    }
+  };
+
+  const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setTagInput(e.target.value);
+  };
+
+  const handleTagSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (inputValues.tags.includes(tagInput)) {
+      alert(`#${tagInput} already exists!`);
+    } else {
+      setInputValues((prev) => ({
+        ...prev,
+        tags: [...prev.tags, tagInput],
+      }));
+      setTagInput("");
+    }
+  };
+
+  //Reference Handlers
+  const handleReferenceInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    e.preventDefault();
+    setReferenceInput(e.target.value);
+  };
+
+  const handleReferenceSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (inputValues.references.includes(referenceInput)) {
+      alert(`${referenceInput} already exists!`);
+    } else {
+      setInputValues((prev) => ({
+        ...prev,
+        references: [...prev.references, referenceInput],
+      }));
+      setReferenceInput("");
+    }
+  };
+
+  useEffect(() => {
+    console.log(inputValues);
+  }, [inputValues]);
 
   useEffect(() => {
     (async () => {
@@ -38,9 +122,84 @@ export default function AdminWritePage() {
     })();
   }, [inputValues.content]);
 
+  const date = new Date();
+
+  const categoryMessage = "Select a category";
+  const tagMessage = "Select a tag";
+
   return (
     <>
       <form className="form-control w-full max-w-lg mx-auto px-1 md:px-0">
+        {/* Category */}
+        <div className="label">
+          <span className="label-text">카테고리</span>
+        </div>
+        {isCategorySelectable ? (
+          <div className="flex gap-3">
+            <select
+              name="category"
+              className="select select-bordered max-w-xs"
+              onChange={handleInputChange}
+              defaultValue={categoryMessage}>
+              <option disabled>{categoryMessage}</option>
+              {allCategories.map((it, idx) => (
+                <option key={idx} value={it}>
+                  {it}
+                </option>
+              ))}
+            </select>
+            <button
+              className="btn btn-square btn-outline"
+              onClick={toggleCategory}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                />
+              </svg>
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
+        {!isCategorySelectable ? (
+          <div className="flex gap-3">
+            <input
+              type="text"
+              name="category"
+              className="input input-bordered"
+              onChange={handleInputChange}
+              placeholder="create new one"
+            />
+            <button
+              className="btn btn-square btn-outline"
+              onClick={toggleCategory}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                />
+              </svg>
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
+        {/* Title */}
         <div className="label">
           <span className="label-text">제목</span>
         </div>
@@ -51,6 +210,7 @@ export default function AdminWritePage() {
           onChange={handleInputChange}
           placeholder="제목을 입력하세요."
         />
+        {/* Content */}
         <div className="label">
           <span className="label-text">내용</span>
         </div>
@@ -59,14 +219,77 @@ export default function AdminWritePage() {
           className="textarea textarea-bordered h-96"
           onChange={handleInputChange}
           placeholder="내용을 입력하세요"></textarea>
+        {/* Tags */}
+        <div className="label">
+          <span className="label-text">태그</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <select
+            className="select select-bordered w-full max-w-xs"
+            onChange={handleTagChange}
+            defaultValue={tagMessage}>
+            <option disabled>{tagMessage}</option>
+            {allTags.map((it, idx) => (
+              <option key={idx} value={it}>
+                {it}
+              </option>
+            ))}
+          </select>
+          OR
+          <input
+            type="text"
+            className="input input-bordered"
+            onChange={handleTagInputChange}
+            value={tagInput}
+            placeholder="create new one"
+          />
+          <button
+            className="btn btn-square btn-outline"
+            onClick={handleTagSubmit}>
+            Create
+          </button>
+        </div>
+        <div className="mt-3 flex gap-3">
+          {inputValues.tags.map((it, idx) => (
+            <p key={idx} className="font-bold">
+              #{it}
+            </p>
+          ))}
+        </div>
+        {/* References */}
+        <div className="label">
+          <span className="label-text">참고</span>
+        </div>
+        <div className="flex gap-3">
+          <input
+            type="text"
+            className="input input-bordered"
+            onChange={handleReferenceInputChange}
+            value={referenceInput}
+            placeholder="input a reference"
+          />
+          <button
+            className="btn btn-square btn-outline"
+            onClick={handleReferenceSubmit}>
+            Create
+          </button>
+        </div>
+        <div className="mt-3">
+          {inputValues.references.map((it, idx) => (
+            <p key={idx} className="text-primary">
+              {it}
+            </p>
+          ))}
+        </div>
       </form>
+      <div className="divider divider-neutral">PREVIEW</div>
       <Post
         slug="/1"
         title={inputValues.title}
-        category="category"
-        tags={["tag"]}
-        date="2222-22-22"
-        references={["reference"]}
+        category={inputValues.category}
+        tags={inputValues.tags}
+        date={date.toISOString().substring(0, 10)}
+        references={inputValues.references}
         html={html}
       />
     </>
@@ -89,12 +312,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const allPostsData = getSortedPostsData();
-  //get categories&tags
+  //get all categories/tags list
   const allCategories = [
     ...new Set(allPostsData.map((item) => item.frontmatter.category)),
   ];
   const tagsSet = new Set<string>();
-  allPostsData.forEach((item, idx) => {
+  allPostsData.forEach((item) => {
     item.frontmatter.tags.forEach((tag: string) => {
       if (tag) {
         tagsSet.add(tag);
