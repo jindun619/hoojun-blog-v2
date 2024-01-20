@@ -1,7 +1,9 @@
+import { useEffect } from "react";
+
 import Head from "next/head";
 
 import { Navbar } from "./Navbar";
-import { useEffect } from "react";
+import { Footer } from "./Footer";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -30,7 +32,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         />
       </Head>
       <Navbar />
-      <div className="max-w-2xl mx-auto h-full">{children}</div>;
+      <div className="max-w-2xl mx-auto h-full">{children}</div>
+      <Footer />
     </div>
   );
 }
