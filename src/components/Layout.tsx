@@ -32,7 +32,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         />
       </Head>
       <Navbar />
-      <div className="max-w-2xl mx-auto h-full">{children}</div>
+      <div className="max-w-2xl mx-auto min-h-screen">{children}</div>
       <Footer />
     </div>
   );

@@ -69,7 +69,7 @@ export function Post({
               src={featuredImageUrl}
               alt="featuredImage"
               fill={true}
-              style={{ borderRadius: "20px" }}
+              style={{ borderRadius: "20px", objectFit: "cover" }}
               onError={() => {
                 setImgValid(false);
               }}

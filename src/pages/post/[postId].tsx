@@ -4,6 +4,7 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import Prism from "prismjs";
 import "prismjs/components/prism-typescript.min";
 import "prismjs/components/prism-python.min";
+import "prismjs/components/prism-bash.min";
 import "prismjs/themes/prism-tomorrow.css";
 
 import { getSortedPostsData } from "../../../lib/posts";
