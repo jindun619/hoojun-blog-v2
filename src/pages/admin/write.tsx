@@ -2,12 +2,24 @@ import React, { useState, useEffect } from "react";
 import { GetServerSideProps } from "next";
 
 import { parseCookies } from "nookies";
+import axios from "axios";
 
 import { Post } from "@/components/Post";
 
 import { verifyToken, markdownToHtml } from "@/utils/utils";
 
 import { getSortedPostsData } from "../../../lib/posts";
+
+function isEmpty(value: string): boolean;
+function isEmpty(value: string[]): boolean;
+function isEmpty(value: any): boolean {
+  if (typeof value === "string") {
+    return value.length === 0;
+  } else if (Array.isArray(value)) {
+    return value.length === 0;
+  }
+  throw new Error("Invalid input");
+}
 
 interface InputValues {
   category: string;
@@ -36,6 +48,7 @@ export default function AdminWritePage({
     useState<boolean>(true);
   const [tagInput, setTagInput] = useState<string>("");
   const [referenceInput, setReferenceInput] = useState<string>("");
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -78,7 +91,9 @@ export default function AdminWritePage({
 
   const handleTagSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (inputValues.tags.includes(tagInput)) {
+    if (tagInput.length === 0) {
+      alert("tag name is empty!");
+    } else if (inputValues.tags.includes(tagInput)) {
       alert(`#${tagInput} already exists!`);
     } else {
       setInputValues((prev) => ({
@@ -99,7 +114,9 @@ export default function AdminWritePage({
 
   const handleReferenceSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (inputValues.references.includes(referenceInput)) {
+    if (referenceInput.length === 0) {
+      alert("reference is empty!");
+    } else if (inputValues.references.includes(referenceInput)) {
       alert(`${referenceInput} already exists!`);
     } else {
       setInputValues((prev) => ({
@@ -110,9 +127,29 @@ export default function AdminWritePage({
     }
   };
 
-  useEffect(() => {
-    console.log(inputValues);
-  }, [inputValues]);
+  const handlePostSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setSubmitLoading(true);
+
+    const isInputsValid: boolean =
+      !isEmpty(inputValues.category) &&
+      !isEmpty(inputValues.title) &&
+      !isEmpty(inputValues.content);
+    if (isInputsValid) {
+      axios
+        .post("/api/uploadPost", inputValues)
+        .then((res) => {
+          setSubmitLoading(false);
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      alert("inputs not valid!");
+      setSubmitLoading(false);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -281,10 +318,18 @@ export default function AdminWritePage({
             </p>
           ))}
         </div>
+        {/* Submit */}
+        <button className="mt-3 btn btn-neutral" onClick={handlePostSubmit}>
+          {submitLoading ? (
+            <span className="loading loading-dots loading-md"></span>
+          ) : (
+            "제출"
+          )}
+        </button>
       </form>
       <div className="divider divider-neutral">PREVIEW</div>
       <Post
-        slug="/1"
+        slug="/0"
         title={inputValues.title}
         category={inputValues.category}
         tags={inputValues.tags}

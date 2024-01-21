@@ -1,12 +1,6 @@
 import { useState, useEffect } from "react";
 import { GetStaticProps, GetStaticPaths } from "next";
 
-import Prism from "prismjs";
-import "prismjs/components/prism-typescript.min";
-import "prismjs/components/prism-python.min";
-import "prismjs/components/prism-bash.min";
-import "prismjs/themes/prism-tomorrow.css";
-
 import { getSortedPostsData } from "../../../lib/posts";
 import { markdownToHtml, htmlToText } from "@/utils/utils";
 
@@ -25,10 +19,6 @@ export default function PostPage({ postData }: { postData: PostProps }) {
       setHtml(convertedHtml);
     })();
   }, [postData]);
-
-  useEffect(() => {
-    Prism.highlightAll();
-  }, [html]);
 
   const frontmatter = postData?.frontmatter;
 

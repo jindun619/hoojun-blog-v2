@@ -3,6 +3,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+import Prism from "prismjs";
+import "prismjs/components/prism-typescript.min";
+import "prismjs/components/prism-python.min";
+import "prismjs/components/prism-bash.min";
+import "prismjs/themes/prism-tomorrow.css";
+
 import { CategoryBtn } from "./CategoryBtn";
 import { TagBtn } from "./TagBtn";
 import { Bio } from "./Bio";
@@ -40,6 +46,10 @@ export function Post({
       </Link>
     </div>
   ));
+
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [html]);
 
   useEffect(() => {
     // FADE IN TRANSITION
