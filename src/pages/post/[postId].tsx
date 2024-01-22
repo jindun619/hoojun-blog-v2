@@ -10,7 +10,20 @@ import { Post } from "@/components/Post";
 import { PostProps } from "../../../types/types";
 
 export default function PostPage({ postData }: { postData: PostProps }) {
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [html, setHtml] = useState<string>("");
+
+  //calculate progress bar percentage
+  useEffect(() => {
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight =
+        document.documentElement.scrollHeight - windowHeight;
+      const scrollPercentage = (window.scrollY / documentHeight) * 100;
+      setScrollProgress(scrollPercentage);
+    };
+    window.addEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -27,6 +40,10 @@ export default function PostPage({ postData }: { postData: PostProps }) {
     return (
       <>
         <SEO title={frontmatter?.title} description={excerpt} />
+        <progress
+          className="progress progress-primary bg-blue-100 fixed top-0 left-0 w-full h-1"
+          value={scrollProgress}
+          max="100"></progress>
         <Post
           slug={frontmatter.slug}
           title={frontmatter.title}
