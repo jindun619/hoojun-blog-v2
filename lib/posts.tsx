@@ -25,12 +25,18 @@ export function getSortedPostsData() {
       content: matterResult.content,
     };
   });
+
   // Sort posts by date
-  return allPostsData.sort((a, b) => {
+  const sortedAllPostsData = allPostsData.sort((a, b) => {
     if (a.frontmatter.date < b.frontmatter.date) {
       return 1;
     } else {
       return -1;
     }
   });
+  
+  //don't include posts with frontmatter.hide == true
+  return sortedAllPostsData.filter((post) => {
+    return !post.frontmatter.hide
+  })
 }
