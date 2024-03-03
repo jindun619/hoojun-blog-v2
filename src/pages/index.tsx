@@ -10,6 +10,8 @@ import { CardsArea } from "@/components/CardsArea";
 
 import { getSortedPostsData } from "../../lib/posts";
 
+import GitHubCalendar from 'react-github-calendar';
+
 export default function IndexPage({
   allPostsData,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
@@ -31,6 +33,9 @@ export default function IndexPage({
       {/* BIO */}
       <div className="mt-16">
         <Bio />
+      </div>
+      <div className="mt-16">
+        <GitHubCalendar username="jindun619" />
       </div>
       <article className="prose">
         <figcaption className="ml-4 mt-4">{`총 ${allPostsData.length}개의 포스트`}</figcaption>
