@@ -18,6 +18,8 @@ export default function IndexPage({
   const setNavbarParams = useSetRecoilState(navbarParamsState);
 
   useEffect(() => {
+    console.log("Welcome to Hoojun.Kim");
+
     const processedPostsData = allPostsData.map((post) => {
       return {
         category: post.frontmatter.category,
