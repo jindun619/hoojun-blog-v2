@@ -7,7 +7,7 @@ import { Footer } from "./Footer";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    document.querySelector("html")?.setAttribute("data-theme", "winter");
+    document.querySelector("html")?.setAttribute("data-theme", "myTheme");
   }, []);
   return (
     <div>
