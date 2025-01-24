@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="footer footer-center p-4">
       <aside className="items-center grid-flow-col">
         <p>
-          © {`${new Date().getFullYear()} `}
+          {`© ${new Date().getFullYear()} `}
           <Link
             className="link link-primary link-hover"
             href="https://github.com/jindun619"
