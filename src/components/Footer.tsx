@@ -5,10 +5,11 @@ export function Footer() {
     <footer className="footer footer-center p-4">
       <aside className="items-center grid-flow-col">
         <p>
-          © 2024{" "}
+          © {`${new Date().getFullYear()} `}
           <Link
             className="link link-primary link-hover"
-            href="https://github.com/jindun619">
+            href="https://github.com/jindun619"
+          >
             Hoojun
           </Link>
           , built with
@@ -19,7 +20,8 @@ export function Footer() {
             height="13"
             xmlns="http://www.w3.org/2000/svg"
             width="63"
-            viewBox="0 0 394.00000000000006 79.433">
+            viewBox="0 0 394.00000000000006 79.433"
+          >
             <path
               d="M261.919.033h68.628V12.7h-27.224v66.639H289.71V12.7h-27.791V.033zM149.052.033V12.7h-55.01v20.377h44.239v12.667H94.042v20.928h55.01V79.34H80.43V12.7h-.006V.033h68.628zM183.32.066h-17.814l63.806 79.306h17.866l-31.907-39.626L247.127.126l-17.815.028-22.96 28.516L183.32.066zM201.6 56.715l-8.921-11.092-27.224 33.81h17.865l18.28-22.718z"
               fill="var(--geist-foreground)"
