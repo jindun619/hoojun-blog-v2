@@ -53,7 +53,7 @@ export default function AboutPage() {
                 GitHub
               </Link>
               <Link
-                href="mailto:jindun619@sjtu.edu.cn"
+                href="mailto:jindun619@naver.com"
                 className="btn btn-secondary"
               >
                 <svg
