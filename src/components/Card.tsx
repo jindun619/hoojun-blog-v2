@@ -43,17 +43,23 @@ export function Card({
 
   if (isMounted) {
     return (
-      <div className="card-normal font-sans cursor-pointer hover:bg-primary-content border-b">
+      <div className="card bg-base-100 hover:bg-base-200 transition-all duration-300 rounded-lg shadow-sm hover:shadow-md overflow-hidden mb-6">
         <Link href={`/post${slug}`} className="no-underline">
-          <div className="p-4 text-base">
-            <h2 className="card-titles text-3xl font-bold text-primary">{`[${category}]${title}`}</h2>
-            <p className="text-base text-base-content font-semibold my-2">
-              {htmlToText(convertedContent).substring(0, 200) + ".."}
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-3">
+              <span className="badge badge-primary">{category}</span>
+              <time className="text-sm font-medium text-base-content/70 flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                {date}
+              </time>
+            </div>
+            <h2 className="text-2xl font-bold text-base-content mb-3 hover:text-primary transition-colors">{title}</h2>
+            <p className="text-base text-base-content/80 mb-4 line-clamp-3">
+              {htmlToText(convertedContent).substring(0, 160) + "..."}
             </p>
-            <div className="flex flex-wrap gap-2">{showTags}</div>
-            <p className="text-sm text-neutral-content font-semibold mt-2">
-              {date}
-            </p>
+            <div className="flex flex-wrap gap-2 mt-auto">{showTags}</div>
           </div>
         </Link>
       </div>

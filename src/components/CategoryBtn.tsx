@@ -14,7 +14,7 @@ export function CategoryBtn({ name, isActive, isOutlined }: CategoryBtnProps) {
 
   return (
     <button
-      className={`btn btn-sm btn-primary hover:bg-primary normal-case ${active} ${outline}`}>
+      className={`px-4 py-1.5 text-sm font-medium bg-primary/10 hover:bg-primary/20 text-primary hover:text-primary-focus rounded-md transition-all duration-200 ${active ? 'bg-primary/20 font-semibold' : ''} ${outline ? 'border border-primary/30' : ''}`}>
       {name}
     </button>
   );

@@ -10,7 +10,7 @@ import { CardsArea } from "@/components/CardsArea";
 
 import { getSortedPostsData } from "../../lib/posts";
 
-import GitHubCalendar from 'react-github-calendar';
+import GitHubCalendar from "react-github-calendar";
 
 export default function IndexPage({
   allPostsData,

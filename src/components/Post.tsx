@@ -32,6 +32,7 @@ export function Post({
   html,
 }: PostProps) {
   const [imgValid, setImgValid] = useState<boolean>(true);
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
   const featuredImageUrl = `/post_images${slug}/fi.png`;
 
@@ -60,44 +61,63 @@ export function Post({
   });
 
   return (
-    <div className="max-w-2xl mx-auto pt-16 px-4 md:px-0 opacity-0 fadeInTransition">
-      <div className="mb-2">
+    <div className="w-full mx-auto opacity-0 fadeInTransition">
+      <div className="mb-6 flex items-center gap-3">
+        <Link href="/" className="text-base-content/60 hover:text-primary transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </Link>
         <Link href={`/category/${category}`}>
           <CategoryBtn name={category} isActive={true} />
         </Link>
       </div>
+      
       <article className="prose max-w-none">
-        <header>
-          <h1>{title || ""}</h1>
-          <p>{date}</p>
-          <div>{showTags}</div>
+        <header className="mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold !mb-4">{title || ""}</h1>
+          <p className="text-base-content/70 !my-2">{date}</p>
+          <div className="flex flex-wrap gap-2">{showTags}</div>
         </header>
-        {/* Featured Image */}
+        
         {imgValid ? (
-          <div className="relative h-80 mb-10">
+          <div className="relative h-[300px] md:h-[400px] mb-10 rounded-xl overflow-hidden shadow-md">
             <Image
               src={featuredImageUrl}
-              alt="featuredImage"
+              alt={title || "Featured Image"}
               fill={true}
-              style={{ borderRadius: "20px", objectFit: "cover" }}
+              style={{ objectFit: "cover" }}
+              className={`transition-transform hover:scale-105 duration-700 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
               onError={() => {
                 setImgValid(false);
               }}
+              onLoad={() => {
+                setImageLoaded(true);
+              }}
+              priority
+              unoptimized
             />
           </div>
         ) : (
           ""
         )}
+        
         <div
           dangerouslySetInnerHTML={{ __html: html }}
-          className="mdSyntax pb-8 border-b-2"
+          className="mdSyntax pb-10 border-b border-base-300"
         />
-        <div className={references.length !== 0 ? "border-b-2 pb-8" : ""}>
-          <h2>{references.length !== 0 ? "참고" : ""}</h2>
-          {showReferences}
-        </div>
+        
+        {references.length > 0 && (
+          <div className="border-b border-base-300 pb-10 mt-10">
+            <h2 className="text-2xl font-bold mb-4">참고 자료</h2>
+            <div className="flex flex-col gap-2">
+              {showReferences}
+            </div>
+          </div>
+        )}
       </article>
-      <div className="pt-8 pb-16">
+      
+      <div className="py-10 border-t border-base-200 mt-10">
         <Bio />
       </div>
     </div>

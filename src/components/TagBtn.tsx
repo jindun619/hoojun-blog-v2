@@ -18,7 +18,7 @@ function TagBtn({ name, href, isActive }: TagBtnProps) {
 
   return (
     <button
-      className={`btn btn-xs btn-outline rounded-full normal-case ${active}`}
+      className={`px-3 py-1 text-xs font-medium bg-base-200 hover:bg-base-300 text-secondary hover:text-secondary-focus rounded-full transition-all duration-200 ${active ? 'bg-secondary/10 text-secondary' : ''}`}
       onClick={clickHandler}>{`# ${name}`}</button>
   );
 }
