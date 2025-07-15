@@ -1,11 +1,31 @@
 import { SEO } from "@/components/SEO";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { JsonLd, createPersonSchema } from "@/components/JsonLd";
 
 export default function AboutPage() {
+  const router = useRouter();
   return (
     <>
-      <SEO title="About" description="김호준에 대해 알아보세요" />
+      <SEO
+        title="About"
+        description="김호준에 대해 알아보세요. 상해교통대학교에서 정보통신공학을 전공하고 있는 풀스택 개발자입니다."
+        keywords="김호준, 프로필, 풀스택 개발자, 상해교통대학교, 정보통신공학"
+        image="/asset/bio-image.PNG"
+        url="https://blog.hoojun.kim/about"
+      />
+      <JsonLd
+        data={createPersonSchema({
+          name: "김호준",
+          url: `https://blog.hoojun.kim${router.asPath}`,
+          imageUrl: "https://blog.hoojun.kim/asset/bio-image.PNG",
+          jobTitle: "풀스택 개발자",
+          description:
+            "상해교통대학교에서 정보통신공학을 전공하고 있는 김호준입니다. 풀스택 개발자로 성장하기 위해, 다양한 기술을 배우고 프로젝트에 적용하는 데에 열정을 가지고 있습니다.",
+          sameAs: ["https://github.com/jindun619"],
+        })}
+      />
 
       <div className="max-w-4xl mx-auto py-10">
         <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">

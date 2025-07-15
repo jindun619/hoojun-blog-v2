@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { GetStaticProps, GetStaticPaths } from "next";
+import { useRouter } from "next/router";
+import Head from "next/head";
 
 import { SEO } from "@/components/SEO";
 import { CardsArea } from "@/components/CardsArea";
@@ -12,10 +14,15 @@ import { PostProps } from "../../../types/types";
 export default function CategoryPage({
   selectedCategory,
   allPostsData,
+  page = 1,
+  totalPages = 1,
 }: {
   selectedCategory: string;
   allPostsData: PostProps[];
+  page?: number;
+  totalPages?: number;
 }) {
+  const router = useRouter();
   const selectedPostsData = allPostsData.filter((post) => {
     return post.frontmatter.category === selectedCategory;
   });
@@ -43,9 +50,33 @@ export default function CategoryPage({
     );
   });
 
+  // 카테고리 페이지에 대한 상세 설명 생성
+  const categoryDescription = `${selectedCategory} 카테고리의 글 목록입니다. 김호준의 개발 블로그에서 ${selectedCategory} 관련 포스트를 확인하세요.`;
+  
+  // 현재 URL 가져오기
+  const currentUrl = `https://blog.hoojun.kim${router.asPath}`;
+  const baseUrl = `https://blog.hoojun.kim/category/${selectedCategory}`;
+  
+  // 페이지네이션을 위한 URL 생성
+  const canonicalUrl = page > 1 ? `${baseUrl}?page=${page}` : baseUrl;
+  const prevPageUrl = page > 1 ? `${baseUrl}?page=${page - 1}` : null;
+  const nextPageUrl = page < totalPages ? `${baseUrl}?page=${page + 1}` : null;
+
   return (
     <>
-      <SEO title="카테고리" description="카테고리" />
+      <SEO 
+        title={`${selectedCategory} 카테고리`} 
+        description={categoryDescription}
+        keywords={`${selectedCategory}, 김호준 블로그, 개발 블로그, 프로그래밍`}
+        url={canonicalUrl}
+      />
+      
+      {/* 페이지네이션을 위한 추가 메타 태그 */}
+      <Head>
+        {prevPageUrl && <link rel="prev" href={prevPageUrl} />}
+        {nextPageUrl && <link rel="next" href={nextPageUrl} />}
+      </Head>
+      
       <div className="max-w-2xl pt-16 mx-auto">
         <article className="prose">
           <h1 className="ml-4">
