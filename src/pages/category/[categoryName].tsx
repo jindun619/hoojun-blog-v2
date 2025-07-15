@@ -58,9 +58,10 @@ export default function CategoryPage({
   const baseUrl = `https://blog.hoojun.kim/category/${selectedCategory}`;
   
   // 페이지네이션을 위한 URL 생성
-  const canonicalUrl = page > 1 ? `${baseUrl}?page=${page}` : baseUrl;
-  const prevPageUrl = page > 1 ? `${baseUrl}?page=${page - 1}` : null;
-  const nextPageUrl = page < totalPages ? `${baseUrl}?page=${page + 1}` : null;
+  const canonicalUrl = baseUrl;
+  // 페이지네이션은 현재 구현되지 않았으므로 임시로 비활성화
+  const prevPageUrl = null;
+  const nextPageUrl = null;
 
   return (
     <>
@@ -71,11 +72,11 @@ export default function CategoryPage({
         url={canonicalUrl}
       />
       
-      {/* 페이지네이션을 위한 추가 메타 태그 */}
-      <Head>
+      {/* 페이지네이션 구현 후 활성화 예정 */}
+      {/* <Head>
         {prevPageUrl && <link rel="prev" href={prevPageUrl} />}
         {nextPageUrl && <link rel="next" href={nextPageUrl} />}
-      </Head>
+      </Head> */}
       
       <div className="max-w-2xl pt-16 mx-auto">
         <article className="prose">

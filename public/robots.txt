@@ -1,9 +1,20 @@
 # *
 User-agent: *
 Allow: /
+Disallow: /api/*
+Disallow: /_next/*
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+
+# Yeti
+User-agent: Yeti
+Allow: /
 
 # Host
 Host: https://blog.hoojun.kim
 
 # Sitemaps
 Sitemap: https://blog.hoojun.kim/sitemap.xml
+Sitemap: https://blog.hoojun.kim/server-sitemap.xml
