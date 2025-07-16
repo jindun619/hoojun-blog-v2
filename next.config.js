@@ -1,7 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost', 'blog.hoojun.kim'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'https',
+        hostname: 'blog.hoojun.kim',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.shields.io',
+      }
+    ],
     unoptimized: false, // 이미지 최적화 활성화
     formats: ['image/avif', 'image/webp'],
   },

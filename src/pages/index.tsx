@@ -2,8 +2,7 @@ import type { InferGetStaticPropsType } from "next";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-import { useSetRecoilState } from "recoil";
-import { navbarParamsState } from "@/recoil/state";
+import { useNavbar } from "@/context/NavbarContext";
 
 import { SEO } from "@/components/SEO";
 import { Bio } from "@/components/Bio";
@@ -18,7 +17,7 @@ export default function IndexPage({
   allPostsData,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter();
-  const setNavbarParams = useSetRecoilState(navbarParamsState);
+  const { setNavbarParams } = useNavbar();
 
   useEffect(() => {
     console.log("Welcome to Hoojun.Kim");

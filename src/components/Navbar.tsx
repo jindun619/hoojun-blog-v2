@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-import { useRecoilState } from "recoil";
-import { navbarParamsState } from "@/recoil/state";
+import { useNavbar, NavbarParams } from "@/context/NavbarContext";
 
-interface NavbarParams {
-  category: string;
-  tags: string[];
-}
+// NavbarParams는 이제 NavbarContext에서 가져옵니다
 
 interface NavbarProps {
   toggleTheme: () => void;
@@ -18,7 +14,7 @@ import { CategoryBtn } from "./CategoryBtn";
 import { TagBtn } from "./TagBtn";
 
 export function Navbar({ toggleTheme, currentTheme }: NavbarProps) {
-  const [navbarParams] = useRecoilState<NavbarParams[]>(navbarParamsState);
+  const { navbarParams } = useNavbar();
   const [categories, setCategories] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
 

@@ -80,7 +80,20 @@
 }
 
 .mdSyntax img {
-  @apply block m-auto;
+  @apply block m-auto max-w-full rounded-lg shadow-md my-8;
+  transition: transform 0.3s ease-in-out;
+}
+
+.mdSyntax img:hover {
+  transform: scale(1.02);
+}
+
+.mdSyntax figure {
+  @apply my-8 text-center;
+}
+
+.mdSyntax figcaption {
+  @apply text-sm text-base-content/70 mt-2 italic;
 }
 
 .mdSyntax .language-text {
