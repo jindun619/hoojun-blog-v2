@@ -7,7 +7,11 @@ import { markdownToHtml, htmlToText } from "@/utils/utils";
 
 import { SEO } from "@/components/SEO";
 import { Post } from "@/components/Post";
-import { JsonLd, createBlogPostingSchema, createBreadcrumbSchema } from "@/components/JsonLd";
+import {
+  JsonLd,
+  createBlogPostingSchema,
+  createBreadcrumbSchema,
+} from "@/components/JsonLd";
 
 import { PostProps } from "../../../types/types";
 
@@ -41,10 +45,10 @@ export default function PostPage({ postData }: { postData: PostProps }) {
   const excerpt = htmlToText(html).substring(0, 200);
   if (frontmatter) {
     const url = `https://blog.hoojun.kim${router.asPath}`;
-    const imageUrl = frontmatter?.coverImage 
-      ? `https://blog.hoojun.kim${frontmatter.coverImage}` 
+    const imageUrl = frontmatter?.coverImage
+      ? `https://blog.hoojun.kim${frontmatter.coverImage}`
       : "https://blog.hoojun.kim/asset/og-image.png";
-    
+
     // 블로그 포스트 스키마
     const blogPostingSchema = createBlogPostingSchema({
       title: frontmatter.title,
@@ -58,21 +62,24 @@ export default function PostPage({ postData }: { postData: PostProps }) {
       publisherLogo: "https://blog.hoojun.kim/asset/bio-image.PNG",
       keywords: frontmatter.tags,
     });
-    
+
     // 빵 부스러기 스키마
     const breadcrumbSchema = createBreadcrumbSchema({
       items: [
         { name: "홈", url: "https://blog.hoojun.kim" },
-        { name: frontmatter.category, url: `https://blog.hoojun.kim/category/${frontmatter.category}` },
+        {
+          name: frontmatter.category,
+          url: `https://blog.hoojun.kim/category/${frontmatter.category}`,
+        },
         { name: frontmatter.title, url: url },
       ],
     });
-    
+
     return (
       <>
-        <SEO 
-          title={frontmatter?.title} 
-          description={excerpt} 
+        <SEO
+          title={frontmatter?.title}
+          description={excerpt}
           article={true}
           keywords={frontmatter?.tags?.join(", ")}
           image={frontmatter?.coverImage || "/asset/og-image.png"}
@@ -84,7 +91,8 @@ export default function PostPage({ postData }: { postData: PostProps }) {
         <progress
           className="progress progress-primary bg-blue-100 fixed top-0 left-0 w-full h-1"
           value={scrollProgress}
-          max="100"></progress>
+          max="100"
+        ></progress>
         <Post
           slug={frontmatter.slug}
           title={frontmatter.title}
