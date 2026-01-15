@@ -101,6 +101,7 @@ export default function PostPage({ postData }: { postData: PostProps }) {
           date={frontmatter.date}
           references={frontmatter.references}
           html={html}
+          coverImage={frontmatter.coverImage}
         />
       </>
     );

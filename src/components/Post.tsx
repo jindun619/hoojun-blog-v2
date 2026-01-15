@@ -21,6 +21,7 @@ interface PostProps {
   date: string;
   references: string[];
   html: string;
+  coverImage?: string;
 }
 export function Post({
   slug,
@@ -30,11 +31,13 @@ export function Post({
   date,
   references,
   html,
+  coverImage,
 }: PostProps) {
   const [imgValid, setImgValid] = useState<boolean>(true);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
-  const featuredImageUrl = `/post_images${slug}/fi.png`;
+  // coverImage가 있으면 사용, 없으면 기본 경로 사용
+  const featuredImageUrl = coverImage || `/post_images${slug}/fi.png`;
 
   const showTags = tags.map((it: string, idx: number) => (
     <TagBtn key={idx} name={it} href={`/tag/${it}`} />
