@@ -79,7 +79,23 @@ export function Post({
       <article className="prose max-w-none">
         <header className="mb-8">
           <h1 className="text-4xl md:text-5xl font-bold !mb-4">{title || ""}</h1>
-          <p className="text-base-content/70 !my-2">{date}</p>
+          <time className="text-base font-medium text-base-content/70 flex items-center gap-2 !my-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            {date}
+          </time>
           <div className="flex flex-wrap gap-2">{showTags}</div>
         </header>
         
