@@ -1,5 +1,6 @@
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
+import "katex/dist/katex.min.css";
 import { NavbarProvider } from "@/context/NavbarContext";
 
 import { Noto_Sans_KR } from "next/font/google";
