@@ -267,7 +267,7 @@
 
 /* ===== TOC 사이드바 ===== */
 .toc-sidebar {
-  @apply hidden xl:block fixed top-24 w-56 text-sm;
+  @apply fixed top-24 w-56 text-sm;
   left: calc(50% + 384px + 24px);
 }
 

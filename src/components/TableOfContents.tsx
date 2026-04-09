@@ -53,7 +53,7 @@ export function TableOfContents({ contentRef, html }: TableOfContentsProps) {
   if (!tocItems.length) return null;
 
   return (
-    <aside className="toc-sidebar" aria-label="목차">
+    <aside className="toc-sidebar hidden xl:block" aria-label="목차">
       <p>목차</p>
       <nav>
         {tocItems.map((item) => (
