@@ -38,47 +38,168 @@
   @apply text-neutral-content font-semibold;
 }
 
+/* ===== mdSyntax: 마크다운 콘텐츠 스타일 ===== */
+
+/* 본문 텍스트 */
+.mdSyntax p {
+  font-size: 1.1875rem;  /* 19px */
+  line-height: 1.9;
+  letter-spacing: -0.004em;
+  @apply font-normal mb-6 text-base-content;
+}
+
+/* 제목 공통 */
+.mdSyntax h1,
+.mdSyntax h2,
+.mdSyntax h3,
+.mdSyntax h4,
+.mdSyntax h5,
+.mdSyntax h6 {
+  @apply font-bold text-base-content scroll-mt-20;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
 .mdSyntax h1 {
-  @apply text-4xl;
+  font-size: 2.5rem;   /* 40px */
+  font-weight: 800;
+  margin-top: 3rem;
 }
 
 .mdSyntax h2 {
-  @apply text-3xl;
+  font-size: 2rem;     /* 32px */
+  margin-top: 2.5rem;
+  @apply pb-2 border-b-2 border-primary/40;
 }
 
 .mdSyntax h3 {
-  @apply text-2xl;
+  font-size: 1.5rem;   /* 24px */
+  margin-top: 2rem;
 }
 
 .mdSyntax h4 {
-  @apply text-xl;
+  font-size: 1.125rem; /* 18px */
+  margin-top: 1.5rem;
 }
 
 .mdSyntax h5 {
-  @apply text-lg;
+  font-size: 1rem;
+  margin-top: 1.25rem;
 }
 
 .mdSyntax h6 {
-  @apply text-base;
+  font-size: 1rem;
+  margin-top: 1.25rem;
+  @apply text-base-content/70;
 }
 
-.mdSyntax p {
-  @apply text-lg leading-10 font-medium;
+/* 제목 내 autolink anchor (hover 시 표시) */
+.mdSyntax h1 > a,
+.mdSyntax h2 > a,
+.mdSyntax h3 > a,
+.mdSyntax h4 > a {
+  @apply opacity-0 transition-opacity ml-2 text-primary text-sm;
 }
 
+.mdSyntax h1:hover > a,
+.mdSyntax h2:hover > a,
+.mdSyntax h3:hover > a,
+.mdSyntax h4:hover > a {
+  @apply opacity-100;
+}
+
+/* 링크 */
 .mdSyntax a {
   @apply text-primary hover:decoration-double;
 }
 
+/* 목록 */
+.mdSyntax ul {
+  @apply list-disc list-outside mb-5;
+  padding-left: 1.5rem;
+}
+
+.mdSyntax ol {
+  @apply list-decimal list-outside mb-5;
+  padding-left: 1.5rem;
+}
+
+.mdSyntax li {
+  font-size: 1.1875rem;
+  line-height: 1.7;
+  letter-spacing: -0.004em;
+}
+
+.mdSyntax li + li {
+  margin-top: 0.25rem;
+}
+
+.mdSyntax li ul,
+.mdSyntax li ol {
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
+/* 인라인 코드 */
+.mdSyntax :not(pre) > code {
+  font-size: 85%;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  @apply bg-base-300 text-primary font-mono;
+}
+
+/* Blockquote */
 .mdSyntax blockquote {
-  @apply border-l-primary bg-base-300 pl-8 pt-4 pb-4 pr-4 not-italic;
+  padding: 1rem 1rem 1rem 2rem;
+  @apply border-l-4 border-primary bg-base-200 my-6;
   quotes: none;
 }
 
 .mdSyntax blockquote p {
-  @apply m-0;
+  @apply m-0 text-base-content/80;
 }
 
+/* HR */
+.mdSyntax hr {
+  @apply my-10 border-t-2 border-base-300;
+}
+
+/* Strong / Em */
+.mdSyntax strong {
+  @apply font-bold text-base-content;
+}
+
+.mdSyntax em {
+  @apply italic;
+}
+
+/* 표 */
+.mdSyntax table {
+  @apply w-full my-6 text-sm border-collapse;
+  border: 1px solid oklch(var(--b3));
+}
+
+.mdSyntax thead {
+  @apply bg-base-200;
+}
+
+.mdSyntax th {
+  @apply px-4 py-3 text-left font-semibold border-b border-base-300;
+}
+
+.mdSyntax td {
+  @apply px-4 py-3 border-b border-base-300;
+}
+
+.mdSyntax tr:last-child td {
+  @apply border-b-0;
+}
+
+.mdSyntax tbody tr:hover {
+  @apply bg-base-200/50;
+}
+
+/* 이미지 */
 .mdSyntax img {
   @apply block m-auto max-w-full rounded-lg shadow-md my-8;
   transition: transform 0.3s ease-in-out;
@@ -96,7 +217,92 @@
   @apply text-sm text-base-content/70 mt-2 italic;
 }
 
+/* 코드 블록 */
+.mdSyntax pre {
+  @apply relative my-6 rounded overflow-hidden;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.5;
+  background-color: #1e2433 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mdSyntax pre code {
+  @apply block overflow-x-auto font-mono;
+  padding: 1rem;
+  padding-top: 2.75rem; /* toolbar 공간 확보 */
+}
+
+/* 코드 툴바 (Post.tsx useEffect로 주입) */
+.code-toolbar {
+  @apply absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-2;
+  background-color: #141925;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.code-toolbar-lang {
+  @apply text-xs font-mono font-semibold uppercase tracking-wider;
+  color: #77ca9f;
+}
+
+.code-toolbar-copy {
+  @apply text-xs font-medium px-2 py-0.5 rounded cursor-pointer border-0 outline-none transition-all duration-200;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.code-toolbar-copy:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.code-toolbar-copy.copied {
+  color: #77ca9f;
+  background-color: rgba(119, 202, 159, 0.15);
+}
+
 .mdSyntax .language-text {
   @apply bg-primary-content text-base-content;
   text-shadow: none;
+}
+
+/* ===== TOC 사이드바 ===== */
+.toc-sidebar {
+  @apply hidden xl:block fixed top-24 w-56 text-sm;
+  left: calc(50% + 384px + 24px);
+}
+
+.toc-sidebar > p {
+  @apply text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-3 px-2;
+}
+
+.toc-sidebar nav {
+  @apply flex flex-col gap-1;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.toc-sidebar nav::-webkit-scrollbar {
+  width: 2px;
+}
+
+.toc-sidebar nav::-webkit-scrollbar-thumb {
+  @apply bg-base-300 rounded-full;
+}
+
+.toc-item {
+  @apply block py-1 px-2 rounded text-base-content/50 hover:text-base-content transition-colors duration-150 leading-snug;
+  border-left: 2px solid transparent;
+}
+
+.toc-item.toc-h2 {
+  @apply pl-2;
+}
+
+.toc-item.toc-h3 {
+  @apply pl-5 text-xs;
+}
+
+.toc-item.toc-active {
+  @apply text-primary font-medium;
+  border-left-color: #77ca9f;
 }

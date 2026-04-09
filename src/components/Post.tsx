@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -12,6 +12,7 @@ import "prismjs/themes/prism-tomorrow.css";
 import { CategoryBtn } from "./CategoryBtn";
 import { TagBtn } from "./TagBtn";
 import { Bio } from "./Bio";
+import { TableOfContents } from "./TableOfContents";
 
 interface PostProps {
   slug: string;
@@ -35,8 +36,8 @@ export function Post({
 }: PostProps) {
   const [imgValid, setImgValid] = useState<boolean>(true);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+  const mdSyntaxRef = useRef<HTMLDivElement>(null);
 
-  // coverImage가 있으면 사용, 없으면 기본 경로 사용
   const featuredImageUrl = coverImage || `/post_images${slug}/fi.png`;
 
   const showTags = tags.map((it: string, idx: number) => (
@@ -56,7 +57,55 @@ export function Post({
   }, [html]);
 
   useEffect(() => {
-    // FADE IN TRANSITION
+    const mdContainer = mdSyntaxRef.current;
+    if (!mdContainer) return;
+
+    mdContainer.querySelectorAll("pre").forEach((pre) => {
+      if (pre.querySelector(".code-toolbar")) return;
+
+      const code = pre.querySelector("code");
+      const langClass = Array.from(pre.classList).find((c) =>
+        c.startsWith("language-")
+      );
+      const lang = langClass ? langClass.replace("language-", "") : "text";
+
+      const toolbar = document.createElement("div");
+      toolbar.className = "code-toolbar";
+
+      const langLabel = document.createElement("span");
+      langLabel.className = "code-toolbar-lang";
+      langLabel.textContent = lang === "text" ? "" : lang;
+
+      const copyBtn = document.createElement("button");
+      copyBtn.className = "code-toolbar-copy";
+      copyBtn.textContent = "복사";
+
+      copyBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(code?.textContent || "");
+        } catch {
+          const ta = document.createElement("textarea");
+          ta.value = code?.textContent || "";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+        }
+        copyBtn.textContent = "복사됨!";
+        copyBtn.classList.add("copied");
+        setTimeout(() => {
+          copyBtn.textContent = "복사";
+          copyBtn.classList.remove("copied");
+        }, 2000);
+      });
+
+      toolbar.appendChild(langLabel);
+      toolbar.appendChild(copyBtn);
+      pre.insertBefore(toolbar, pre.firstChild);
+    });
+  }, [html]);
+
+  useEffect(() => {
     const fadeInTransition = document.querySelector(".fadeInTransition");
     if (fadeInTransition) {
       fadeInTransition.classList.remove("opacity-0");
@@ -75,7 +124,7 @@ export function Post({
           <CategoryBtn name={category} isActive={true} />
         </Link>
       </div>
-      
+
       <article className="prose max-w-none">
         <header className="mb-8">
           <h1 className="text-4xl md:text-5xl font-bold !mb-4">{title || ""}</h1>
@@ -98,7 +147,7 @@ export function Post({
           </time>
           <div className="flex flex-wrap gap-2">{showTags}</div>
         </header>
-        
+
         {imgValid ? (
           <div className="relative h-[300px] md:h-[400px] mb-10 rounded-xl overflow-hidden shadow-md">
             <Image
@@ -106,7 +155,7 @@ export function Post({
               alt={title || "Featured Image"}
               fill={true}
               style={{ objectFit: "cover" }}
-              className={`transition-transform hover:scale-105 duration-700 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              className={`transition-transform hover:scale-105 duration-700 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
               onError={() => {
                 setImgValid(false);
               }}
@@ -120,12 +169,13 @@ export function Post({
         ) : (
           ""
         )}
-        
+
         <div
+          ref={mdSyntaxRef}
           dangerouslySetInnerHTML={{ __html: html }}
           className="mdSyntax pb-10 border-b border-base-300"
         />
-        
+
         {references.length > 0 && (
           <div className="border-b border-base-300 pb-10 mt-10">
             <h2 className="text-2xl font-bold mb-4">참고 자료</h2>
@@ -135,7 +185,9 @@ export function Post({
           </div>
         )}
       </article>
-      
+
+      <TableOfContents contentRef={mdSyntaxRef} html={html} />
+
       <div className="py-10 border-t border-base-200 mt-10">
         <Bio />
       </div>

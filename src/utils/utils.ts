@@ -1,4 +1,5 @@
 import { remark } from "remark";
+import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import remarkRehype from "remark-rehype";
 import rehypeKatex from "rehype-katex";
@@ -8,6 +9,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 export async function markdownToHtml(markdown: string) {
   const result = await remark()
+    .use(remarkGfm)
     .use(remarkMath) // LaTeX 수식 파싱
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeKatex) // KaTeX로 수식 렌더링
